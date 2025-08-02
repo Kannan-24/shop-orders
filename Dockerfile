@@ -27,7 +27,8 @@ RUN sed -i 's|APP_URL=http://localhost|APP_URL=https://shop-orders.onrender.com|
 RUN php artisan key:generate
 
 # Build Vite assets
-RUN npm install && npm run build
+RUN npm install 
+# && npm run build
 
 # Create SQLite file
 RUN mkdir -p database && touch database/database.sqlite
