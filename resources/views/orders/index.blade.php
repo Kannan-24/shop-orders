@@ -10,20 +10,18 @@
                     <span class="font-semibold">Create Order</span>
                 </a>
             </div>
-
-            <form method="GET" action="{{ route('orders.index') }}" class="mb-6 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search orders..."
-                    class="border border-gray-300 bg-white text-gray-800 rounded-lg px-4 py-2 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button type="submit"
-                    class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg shadow w-full sm:w-auto">Search</button>
-                @if(request('search'))
-                    <a href="{{ route('orders.index') }}" class="text-blue-600 hover:underline w-full sm:w-auto text-center">Clear</a>
-                @endif
-            </form>
-
-            <div class="mb-6 flex flex-wrap items-center gap-3">
+            <div class="mb-6 flex flex-col sm:flex-row flex-wrap items-center gap-3">
+                <form method="GET" action="{{ route('orders.index') }}" class="flex flex-1 flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search orders..."
+                        class="border border-gray-300 bg-white text-gray-800 rounded-lg px-4 py-2 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="submit"
+                        class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg shadow w-full sm:w-auto">Search</button>
+                    @if(request('search'))
+                        <a href="{{ route('orders.index') }}" class="text-blue-600 hover:underline w-full sm:w-auto text-center">Clear</a>
+                    @endif
+                </form>
                 <button type="button"
-                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow font-semibold"
+                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow font-semibold w-full sm:w-auto"
                     onclick="document.getElementById('export-modal').classList.remove('hidden')">
                     <i class="fas fa-file-pdf"></i> Export Sales PDF
                 </button>
