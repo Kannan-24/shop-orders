@@ -58,7 +58,7 @@
                             </div>
                             <div>
                                 <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Remaining Amount</label>
-                                <p class="text-gray-900 text-sm sm:text-base">₹{{ number_format($order->payment->remaining_amount ?? 0, 2) }}</p>
+                                <p class="text-gray-900 text-sm sm:text-base">₹{{ number_format($order->payment->balance ?? 0, 2) }}</p>
                             </div>
                         </div>
                     </div>
