@@ -1,35 +1,23 @@
-# Use official PHP image with Apache
-FROM php:8.2-apache
+FROM php:8.2-fpm
 
-# Install system dependencies
+WORKDIR /var/www
+
 RUN apt-get update && apt-get install -y \
-    libzip-dev unzip sqlite3 libsqlite3-dev \
-    && docker-php-ext-install pdo pdo_sqlite zip
+    zip unzip curl git libxml2-dev libzip-dev libpng-dev libjpeg-dev libonig-dev \
+    sqlite3 libsqlite3-dev
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Set working directory
-WORKDIR /var/www/html
-
-# Copy Composer from official image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy entire project into container
-COPY . /var/www/html
+COPY . /var/www
+COPY --chown=www-data:www-data . /var/www
 
-# Set proper permissions for Laravel
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 755 /var/www
+RUN composer install
 
-# Install PHP dependencies using Composer
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
-
-# Generate app key (will only work if .env exists)
+COPY .env.example .env
 RUN php artisan key:generate
 
-# Run database migrations (optional if needed at startup)
-# RUN php artisan migrate --force
-
-# Expose port 80
-EXPOSE 80
+EXPOSE 8000
+CMD php artisan serve --host=0.0.0.0 --port=8000

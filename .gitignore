@@ -1,32 +1,24 @@
-# Laravel-specific
-/vendor
+*.log
+.DS_Store
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/.fleet
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
 /node_modules
+/public/build
+/public/hot
 /public/storage
 /storage/*.key
-/storage/oauth-private.key
-/storage/oauth-public.key
 /storage/pail
-.env
-.env.*
-.phpunit.result.cache
-.phpactor.json
+/vendor
 Homestead.json
 Homestead.yaml
-/.vscode
-/.idea
-/.fleet
-/.zed
 Thumbs.db
-.DS_Store
-
-# SQLite — allow committed file
-# Ignore all .sqlite files except the main database file
-/database/*.sqlite
-!database/database.sqlite
-
-# Frontend build output
-/public/hot
-/public/build
-
-# Optional cache files
-/bootstrap/cache/*.php
