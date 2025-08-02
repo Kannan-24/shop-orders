@@ -5,10 +5,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-4xl font-bold text-gray-800">Payments</h1>
-                <a href="{{ route('payments.create') }}"
-                    class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-xl shadow transition-all duration-300">
-                    <span class="font-semibold">Create Payment</span>
-                </a>
             </div>
             <div class="mb-6 flex flex-wrap items-center gap-3">
                 <form method="GET" action="{{ route('payments.index') }}" class="flex flex-wrap items-center gap-3">
@@ -16,7 +12,7 @@
                         class="border border-gray-300 bg-white text-gray-800 rounded-lg px-4 py-2 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <button type="submit"
                         class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg shadow">Search</button>
-                    @if(request('search'))
+                    @if (request('search'))
                         <a href="{{ route('payments.index') }}" class="text-blue-600 hover:underline">Clear</a>
                     @endif
                 </form>
@@ -45,15 +41,18 @@
                     <tbody class="divide-y divide-gray-200">
                         @forelse($payments as $payment)
                             <tr class="hover:bg-gray-50 transition-all text-center">
-                                <td class="px-6 py-4">{{ $loop->iteration + ($payments->currentPage() - 1) * $payments->perPage() }}</td>
                                 <td class="px-6 py-4">
-                                    <a href="{{ route('orders.show', $payment->order_id) }}" class="text-blue-700 hover:underline font-semibold">#{{ $payment->order_id }}</a>
+                                    {{ $loop->iteration + ($payments->currentPage() - 1) * $payments->perPage() }}</td>
+                                <td class="px-6 py-4">
+                                    <a href="{{ route('orders.show', $payment->order_id) }}"
+                                        class="text-blue-700 hover:underline font-semibold">#{{ $payment->order_id }}</a>
                                 </td>
                                 <td class="px-6 py-4 font-medium text-gray-900">
                                     {{ $payment->order->customer->name ?? '-' }}
                                 </td>
                                 <td class="px-6 py-4">₹{{ number_format($payment->total_amount, 2) }}</td>
-                                <td class="px-6 py-4">₹{{ number_format($payment->paymentItems->sum('amount'), 2) }}</td>
+                                <td class="px-6 py-4">₹{{ number_format($payment->paymentItems->sum('amount'), 2) }}
+                                </td>
                                 <td class="px-6 py-4">₹{{ number_format($payment->balance, 2) }}</td>
                                 <td class="px-6 py-4">
                                     @php
