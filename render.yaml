@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: shop-orders
+    env: docker
+    plan: free
+    region: oregon
+    branch: main
+    rootDir: .
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        sync: false   # Will be set after deployment
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: DB_DATABASE
+        value: /var/www/database/database.sqlite
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php artisan config:cache
+      php artisan migrate --force
+      php artisan storage:link
+      touch database/database.sqlite
+    startCommand: php artisan serve --host=0.0.0.0 --port=10000
