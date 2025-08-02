@@ -33,12 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
     Route::resource('customers', CustomerController::class);
+    Route::resource('payments', PaymentController::class);
 
-
-    // Orders
-
-    
-    
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
     Route::get('/payments/{payment}', [PaymentController::class, 'show'])->name('payments.show');
     Route::get('/payments/{payment}/add-payment', [PaymentController::class, 'addPaymentForm'])->name('payments.addPayment');
