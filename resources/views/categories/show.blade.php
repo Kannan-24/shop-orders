@@ -1,58 +1,58 @@
 <x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-4 sm:py-8">
+        <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
             <!-- Page Title -->
-            <div class="mb-8">
-                <h1 class="text-3xl font-semibold text-gray-900">Category Details</h1>
-                <p class="text-gray-600 mt-1">View and manage category information</p>
+            <div class="mb-4 sm:mb-6">
+                <h1 class="text-2xl sm:text-3xl font-semibold text-gray-900">Category Details</h1>
+                <p class="text-gray-600 mt-1 text-sm sm:text-base">View and manage category information</p>
             </div>
 
             <div class="bg-white shadow-sm rounded-lg border">
                 <!-- Category Header -->
-                <div class="px-6 py-6 border-b">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-                            <span class="text-lg font-medium text-gray-700">{{ $category->id }}</span>
+                <div class="px-2 sm:px-4 py-2 sm:py-4 border-b">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                            <span class="text-base sm:text-lg font-medium text-gray-700">{{ $category->id }}</span>
                         </div>
-                        <div class="ml-4">
-                            <h2 class="text-xl font-semibold text-gray-900"># {{ $category->id }}</h2>
-                            <p class="text-gray-500">{{ $category->name }}</p>
+                        <div class="mt-2 sm:mt-0 sm:ml-4">
+                            <h2 class="text-lg sm:text-xl font-semibold text-gray-900"># {{ $category->id }}</h2>
+                            <p class="text-gray-500 text-sm sm:text-base">{{ $category->name }}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Category Information -->
-                <div class="px-6 py-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="space-y-6">
+                <div class="px-2 sm:px-4 py-2 sm:py-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                        <div class="space-y-3 sm:space-y-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-500 mb-1">Name</label>
-                                <p class="text-gray-900">{{ $category->name }}</p>
+                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Name</label>
+                                <p class="text-gray-900 text-sm sm:text-base">{{ $category->name }}</p>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-500 mb-1">Description</label>
-                                <p class="text-gray-900">{{ $category->description ?? '-' }}</p>
+                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Description</label>
+                                <p class="text-gray-900 text-sm sm:text-base">{{ $category->description ?? '-' }}</p>
                             </div>
                         </div>
 
-                        <div class="space-y-6">
+                        <div class="space-y-3 sm:space-y-4 md:mt-0">
                             <div>
-                                <label class="block text-sm font-medium text-gray-500 mb-1">Created At</label>
-                                <p class="text-gray-900">{{ $category->created_at->format('d M Y') }}</p>
+                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Created At</label>
+                                <p class="text-gray-900 text-sm sm:text-base">{{ $category->created_at->format('d M Y') }}</p>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-500 mb-1">Updated At</label>
-                                <p class="text-gray-900">{{ $category->updated_at->format('d M Y') }}</p>
+                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Updated At</label>
+                                <p class="text-gray-900 text-sm sm:text-base">{{ $category->updated_at->format('d M Y') }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Actions -->
-                <div class="px-6 py-4 bg-gray-50 border-t flex justify-between items-center">
-                    <div class="flex space-x-3">
+                <div class="px-2 sm:px-4 py-2 sm:py-3 bg-gray-50 border-t flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
+                    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
                         <a href="{{ route('categories.edit', $category) }}"
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition text-center">
                             Edit Category
                         </a>
                         <form action="{{ route('categories.destroy', $category) }}" method="POST" class="inline"
@@ -60,13 +60,13 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit"
-                                class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-2 rounded-md text-sm font-medium transition">
+                                class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-2 rounded-md text-sm font-medium transition text-center w-full sm:w-auto">
                                 Delete
                             </button>
                         </form>
                     </div>
                     <a href="{{ route('categories.index') }}"
-                        class="text-gray-500 hover:text-gray-700 text-sm font-medium">
+                        class="text-gray-500 hover:text-gray-700 text-sm font-medium mt-2 sm:mt-0">
                         ← Back to Categories
                     </a>
                 </div>

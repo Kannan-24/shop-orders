@@ -1,34 +1,36 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-3xl text-gray-900 leading-tight">Create Order</h2>
-        <p class="text-gray-600 mt-1">Add a new order below</p>
-    </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-4 sm:py-12">
+        <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+            <!-- Page Title -->
+            <div class="mb-4 sm:mb-8">
+                <h1 class="text-2xl sm:text-3xl font-semibold text-gray-900">Create Order</h1>
+                <p class="text-gray-600 mt-1 text-sm sm:text-base">Add a new order below</p>
+            </div>
+
             <div class="bg-white shadow-sm rounded-lg border">
                 <!-- Header -->
-                <div class="px-6 py-6 border-b">
+                <div class="px-2 py-3 sm:px-6 sm:py-6 border-b">
                     <div class="flex items-center">
-                        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-                            <span class="text-lg font-medium text-gray-700">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                            <span class="text-base sm:text-lg font-medium text-gray-700">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M3 7v4a1 1 0 001 1h3m10-5v4a1 1 0 01-1 1h-3m-7 4h10m-10 4h10" />
                                 </svg>
                             </span>
                         </div>
-                        <div class="ml-4">
-                            <h2 class="text-xl font-semibold text-gray-900">Add Order</h2>
-                            <p class="text-gray-500">Fill in the order details below</p>
+                        <div class="ml-2 sm:ml-4">
+                            <h2 class="text-lg sm:text-xl font-semibold text-gray-900">Add Order</h2>
+                            <p class="text-gray-500 text-xs sm:text-sm">Fill in the order details below</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Error Messages -->
                 @if ($errors->any())
-                    <div class="px-6 py-4 border-b bg-red-50">
-                        <ul class="list-disc list-inside text-sm text-red-600">
+                    <div class="px-2 py-2 sm:px-6 sm:py-4 border-b bg-red-50">
+                        <ul class="list-disc list-inside text-xs sm:text-sm text-red-600">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
@@ -39,29 +41,18 @@
                 <!-- Order Form -->
                 <form method="POST" action="{{ route('orders.store') }}">
                     @csrf
-                    <div class="px-6 py-6 flex justify-center">
-                        <div class="gap-8 w-full md:w-2/3">
-                            <div class="space-y-6">
+                    <div class="px-2 py-3 sm:px-6 sm:py-6 flex justify-center">
+                        <div class="w-full sm:w-2/3 gap-8">
+                            <div class="space-y-4 sm:space-y-6">
                                 <div>
                                     <label for="customer_id" class="block text-sm font-medium text-gray-500 mb-1">
                                         Customer <span class="text-red-500">*</span>
                                     </label>
                                     <select name="customer_id" id="customer_id" required
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        class="w-full px-2 py-2 sm:px-4 sm:py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                                         <option value="">Select customer</option>
                                         @foreach ($customers as $customer)
                                             <option value="{{ $customer->id }}">{{ $customer->name }} ({{ $customer->email }})</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="status" class="block text-sm font-medium text-gray-500 mb-1">
-                                        Status <span class="text-red-500">*</span>
-                                    </label>
-                                    <select name="status" id="status" required
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        @foreach (['pending', 'completed', 'cancelled'] as $status)
-                                            <option value="{{ $status }}">{{ ucfirst($status) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -70,20 +61,20 @@
                     </div>
 
                     <!-- Order Items Table -->
-                    <div class="px-6 py-6">
-                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Order Items</h3>
-                        <div class="overflow-x-auto mb-6">
-                            <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm"
+                    <div class="px-2 py-3 sm:px-6 sm:py-6">
+                        <h3 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-gray-800">Order Items</h3>
+                        <div class="overflow-x-auto mb-4 sm:mb-6">
+                            <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm text-xs sm:text-sm"
                                 id="order-items-table">
                                 <thead class="bg-gray-100">
                                     <tr>
-                                        <th class="px-6 py-3 border-b font-semibold text-gray-700 text-left">Product</th>
-                                        <th class="px-6 py-3 border-b font-semibold text-gray-700 text-right">Price</th>
-                                        <th class="px-6 py-3 border-b font-semibold text-gray-700 text-center">Qty</th>
-                                        <th class="px-6 py-3 border-b font-semibold text-gray-700 text-center">Unit Value</th>
-                                        <th class="px-6 py-3 border-b font-semibold text-gray-700 text-center">Unit Type</th>
-                                        <th class="px-6 py-3 border-b font-semibold text-gray-700 text-right">Subtotal</th>
-                                        <th class="px-6 py-3 border-b font-semibold text-gray-700 text-center">Action</th>
+                                        <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-left">Product</th>
+                                        <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-right">Price</th>
+                                        <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-center">Qty</th>
+                                        <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-center">Unit Value</th>
+                                        <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-center">Unit Type</th>
+                                        <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-right">Subtotal</th>
+                                        <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,28 +82,29 @@
                                 </tbody>
                                 <tfoot class="bg-gray-50">
                                     <tr>
-                                        <td colspan="6" class="px-6 py-4 text-right font-bold text-gray-700">Total</td>
-                                        <td class="px-6 py-4 text-right font-bold text-gray-900">₹<span id="order-total">0.00</span></td>
+                                        <td colspan="6" class="px-2 py-2 sm:px-6 sm:py-4 text-right font-bold text-gray-700">Total</td>
+                                        <td class="px-2 py-2 sm:px-6 sm:py-4 text-right font-bold text-gray-900">₹<span id="order-total">0.00</span></td>
                                         <td></td>
                                     </tr>
                                 </tfoot>
                             </table>
                             <button type="button" id="add-item-btn"
-                                class="mt-4 bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded shadow font-semibold transition">+
-                                Add Item</button>
+                                class="mt-2 sm:mt-4 bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-5 sm:py-2 rounded shadow font-semibold transition text-xs sm:text-sm">
+                                + Add Item
+                            </button>
                         </div>
                     </div>
 
                     <!-- Actions -->
-                    <div class="px-6 py-4 bg-gray-50 border-t flex justify-between items-center">
-                        <div class="flex space-x-3">
+                    <div class="px-2 py-2 sm:px-6 sm:py-4 bg-gray-50 border-t flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
+                        <div class="flex space-x-2 sm:space-x-3 w-full sm:w-auto">
                             <button type="submit"
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition w-full sm:w-auto">
                                 Save Order
                             </button>
                         </div>
                         <a href="{{ route('orders.index') }}"
-                            class="text-gray-500 hover:text-gray-700 text-sm font-medium">
+                            class="text-gray-500 hover:text-gray-700 text-sm font-medium w-full sm:w-auto text-center">
                             ← Back to Orders
                         </a>
                     </div>
@@ -144,29 +136,29 @@
             const rowCount = tbody.children.length;
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td class="px-6 py-4 border-b align-middle">
-                    <select name="items[${rowCount}][product_id]" required class="product-select border border-gray-300 rounded px-2 py-1 w-full focus:ring-2 focus:ring-blue-500">
+                <td class="px-2 py-2 sm:px-6 sm:py-4 border-b align-middle">
+                    <select name="items[${rowCount}][product_id]" required class="product-select border border-gray-300 rounded px-2 py-1 w-full focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm">
                         <option value="">Select product</option>
                         ${products.map(p => `<option value="${p.id}" data-base-price="${p.base_price}" data-default-quantity="${p.default_quantity ?? 1}" data-unit-type="${p.unit_type}" data-unit-value="${p.unit_value}">${p.name}</option>`).join('')}
                     </select>
                 </td>
-                <td class="px-6 py-4 border-b text-right align-middle">
-                    <input type="number" step="0.01" min="0" name="items[${rowCount}][unit_price]" value="0" required class="w-24 px-2 py-1 border border-gray-300 rounded text-right item-price focus:ring-2 focus:ring-blue-500">
+                <td class="px-2 py-2 sm:px-6 sm:py-4 border-b text-right align-middle">
+                    <input type="number" step="0.01" min="0" name="items[${rowCount}][unit_price]" value="0" required class="w-16 sm:w-24 px-2 py-1 border border-gray-300 rounded text-right item-price focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm">
                 </td>
-                <td class="px-6 py-4 border-b text-center align-middle">
-                    <input type="number" step="0.01" min="0.01" name="items[${rowCount}][quantity]" value="1" required class="w-24 px-2 py-1 border border-gray-300 rounded text-right item-qty focus:ring-2 focus:ring-blue-500">
+                <td class="px-2 py-2 sm:px-6 sm:py-4 border-b text-center align-middle">
+                    <input type="number" step="0.01" min="0.01" name="items[${rowCount}][quantity]" value="1" required class="w-16 sm:w-24 px-2 py-1 border border-gray-300 rounded text-right item-qty focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm">
                 </td>
-                <td class="px-6 py-4 border-b text-center align-middle">
-                    <input type="number" step="0.01" min="0" name="items[${rowCount}][unit_value]" value="" required class="w-20 px-2 py-1 border border-gray-100 rounded text-center item-unit-value bg-gray-100" readonly>
+                <td class="px-2 py-2 sm:px-6 sm:py-4 border-b text-center align-middle">
+                    <input type="number" step="0.01" min="0" name="items[${rowCount}][unit_value]" value="" required class="w-14 sm:w-20 px-2 py-1 border border-gray-100 rounded text-center item-unit-value bg-gray-100 text-xs sm:text-sm" readonly>
                 </td>
-                <td class="px-6 py-4 border-b text-center align-middle">
-                    <input type="text" name="items[${rowCount}][unit_type]" value="" required class="w-24 px-2 py-1 border border-gray-100 rounded text-center item-unit-type bg-gray-100" readonly>
+                <td class="px-2 py-2 sm:px-6 sm:py-4 border-b text-center align-middle">
+                    <input type="text" name="items[${rowCount}][unit_type]" value="" required class="w-16 sm:w-24 px-2 py-1 border border-gray-100 rounded text-center item-unit-type bg-gray-100 text-xs sm:text-sm" readonly>
                 </td>
-                <td class="px-6 py-4 border-b text-right align-middle">
+                <td class="px-2 py-2 sm:px-6 sm:py-4 border-b text-right align-middle">
                     ₹<span class="item-subtotal font-semibold text-gray-800">0.00</span>
                 </td>
-                <td class="px-6 py-4 border-b text-center align-middle">
-                    <button type="button" class="delete-row-btn text-red-600 hover:text-red-800 font-bold px-3 py-1 rounded transition" onclick="removeRow(this)">Delete</button>
+                <td class="px-2 py-2 sm:px-6 sm:py-4 border-b text-center align-middle">
+                    <button type="button" class="delete-row-btn text-red-600 hover:text-red-800 font-bold px-2 sm:px-3 py-1 rounded transition text-xs sm:text-sm" onclick="removeRow(this)">Delete</button>
                 </td>
             `;
             tbody.appendChild(tr);
