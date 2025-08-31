@@ -26,22 +26,22 @@ class SocialAuthController extends Controller
     {
         try {
             $googleUser = Socialite::driver('google')->user();
-            
+
             // Check if user already exists with this email
             $existingUser = User::where('email', $googleUser->email)->first();
-            
+
             if ($existingUser) {
                 // Update existing user with Google info
                 $existingUser->update([
                     'google_id' => $googleUser->id,
                     'avatar' => $googleUser->avatar,
                 ]);
-                
+
                 Auth::login($existingUser);
-                
+
                 return redirect()->intended('/dashboard')->with('success', 'Logged in successfully!');
             }
-            
+
             // Create new user
             $user = User::create([
                 'name' => $googleUser->name,
@@ -52,11 +52,10 @@ class SocialAuthController extends Controller
                 'role' => 'admin', // Default role, you can change this
                 'is_active' => true,
             ]);
-            
+
             Auth::login($user);
-            
+
             return redirect()->intended('/dashboard')->with('success', 'Account created and logged in successfully!');
-            
         } catch (Exception $e) {
             return redirect('/login')->with('error', 'Something went wrong with Google authentication. Please try again.');
         }
