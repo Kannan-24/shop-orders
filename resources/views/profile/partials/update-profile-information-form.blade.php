@@ -17,6 +17,19 @@
         @csrf
         @method('patch')
 
+        <!-- Avatar Display -->
+        @if($user->avatar)
+        <div>
+            <x-input-label :value="__('Profile Picture')" />
+            <div class="mt-2">
+                <img src="{{ $user->avatar }}" alt="Profile Picture" class="w-16 h-16 rounded-full object-cover">
+            </div>
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __('This profile picture is linked to your Google account.') }}
+            </p>
+        </div>
+        @endif
+
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
