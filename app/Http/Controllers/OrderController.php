@@ -7,6 +7,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\Payment;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Order::with('customer', 'user', 'items.product', 'payment.paymentItems');
+        $query = Order::with('customer',  'user', 'items.product', 'payment.paymentItems');
 
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {

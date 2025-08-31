@@ -1,59 +1,78 @@
-<x-app-layout>a
+<x-app-layout>
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <!-- KPI Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
-                <div
-                    class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
-                    <div class="mb-2"><svg class="h-8 w-8" fill="none" stroke="currentColor">
-                            <path d="M3 10h18M3 6h18M3 14h18M3 18h18" stroke-width="2" />
-                        </svg></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
+                <!-- Total Orders -->
+                <div class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
+                    <div class="mb-2">
+                        <!-- Shopping Cart Icon -->
+                        <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="7" cy="21" r="1" stroke-width="2"/>
+                            <circle cx="17" cy="21" r="1" stroke-width="2"/>
+                        </svg>
+                    </div>
                     <div class="text-sm">Total Orders</div>
                     <div class="text-2xl font-bold">{{ $totalOrders ?? 0 }}</div>
                 </div>
-                <div
-                    class="bg-gradient-to-r from-green-400 to-green-600 text-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
-                    <div class="mb-2"><svg class="h-8 w-8" fill="none" stroke="currentColor">
-                            <circle cx="12" cy="12" r="10" stroke-width="2" />
-                            <path d="M12 8v4l3 3" stroke-width="2" />
-                        </svg></div>
+                <!-- Completed Orders -->
+                <div class="bg-gradient-to-r from-green-400 to-green-600 text-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
+                    <div class="mb-2">
+                        <!-- Check Circle Icon -->
+                        <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                            <path d="M9 12l2 2 4-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                     <div class="text-sm">Completed Orders</div>
                     <div class="text-2xl font-bold">{{ $completedOrders ?? 0 }}</div>
                 </div>
-                <div
-                    class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
-                    <div class="mb-2"><svg class="h-8 w-8" fill="none" stroke="currentColor">
-                            <circle cx="12" cy="12" r="10" stroke-width="2" />
-                            <path d="M12 8v4l3 3" stroke-width="2" />
-                        </svg></div>
+                <!-- Pending Payments -->
+                <div class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
+                    <div class="mb-2">
+                        <!-- Clock Icon -->
+                        <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                            <path d="M12 8v4l3 3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                     <div class="text-sm">Pending Payments</div>
                     <div class="text-2xl font-bold">{{ $pendingPayments ?? 0 }}</div>
                 </div>
-                <div
-                    class="bg-gradient-to-r from-purple-400 to-purple-600 text-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
-                    <div class="mb-2"><svg class="h-8 w-8" fill="none" stroke="currentColor">
-                            <circle cx="12" cy="12" r="10" stroke-width="2" />
-                            <path d="M12 8v4l3 3" stroke-width="2" />
-                        </svg></div>
+                <!-- Total Revenue -->
+                <div class="bg-gradient-to-r from-purple-400 to-purple-600 text-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
+                    <div class="mb-2">
+                        <!-- Trending Up Icon -->
+                        <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M3 17l6-6 4 4 8-8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                     <div class="text-sm">Total Revenue</div>
                     <div class="text-2xl font-bold">₹{{ number_format($totalRevenue ?? 0, 2) }}</div>
                 </div>
-                <div
-                    class="bg-gradient-to-r from-pink-400 to-pink-600 text-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
-                    <div class="mb-2"><svg class="h-8 w-8" fill="none" stroke="currentColor">
-                            <circle cx="12" cy="12" r="10" stroke-width="2" />
-                            <path d="M12 8v4l3 3" stroke-width="2" />
-                        </svg></div>
+                <!-- Customers -->
+                <div class="bg-gradient-to-r from-pink-400 to-pink-600 text-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
+                    <div class="mb-2">
+                        <!-- User Icon -->
+                        <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="8" r="4" stroke-width="2"/>
+                            <path d="M6 20v-2a6 6 0 0 1 12 0v2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                     <div class="text-sm">Customers</div>
                     <div class="text-2xl font-bold">{{ $uniqueCustomers ?? 0 }}</div>
                 </div>
-                <div
-                    class="bg-gradient-to-r from-gray-400 to-gray-600 text-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
-                    <div class="mb-2"><svg class="h-8 w-8" fill="none" stroke="currentColor">
-                            <circle cx="12" cy="12" r="10" stroke-width="2" />
-                            <path d="M12 8v4l3 3" stroke-width="2" />
-                        </svg></div>
+                <!-- Cancelled Orders -->
+                <div class="bg-gradient-to-r from-gray-400 to-gray-600 text-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
+                    <div class="mb-2">
+                        <!-- X Circle Icon -->
+                        <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                            <path d="M15 9l-6 6M9 9l6 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                     <div class="text-sm">Cancelled Orders</div>
                     <div class="text-2xl font-bold">{{ $cancelledOrders ?? 0 }}</div>
                 </div>
@@ -72,7 +91,7 @@
             </div>
 
             <!-- Top Selling Products (Today) -->
-            <div class="bg-white shadow rounded-2xl p-8 mb-8">
+            <div class="bg-white shadow rounded-2xl p-4 mb-8">
                 <h3 class="text-lg font-semibold mb-4">Top Selling Products (Today)</h3>
                 <div class="overflow-x-auto">
                     <table class="min-w-full bg-white border text-sm">
@@ -108,7 +127,7 @@
 
                 <!-- Top Customers & Recent Payments -->
                 <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8">
-                    <div class="bg-white shadow rounded-2xl p-8">
+                    <div class="bg-white shadow rounded-2xl p-4">
                         <h3 class="text-lg font-semibold mb-4">Top Customers</h3>
                         <div class="overflow-x-auto">
                             <table class="min-w-full bg-white border text-sm">
@@ -143,7 +162,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="bg-white shadow rounded-2xl p-8">
+                    <div class="bg-white shadow rounded-2xl p-4">
                         <h3 class="text-lg font-semibold mb-4">Recent Payments</h3>
                         <div class="overflow-x-auto">
                             <table class="min-w-full bg-white border text-sm">
@@ -199,7 +218,7 @@
                 </div>
 
                 <!-- Recent Orders Table -->
-                <div class="bg-white shadow rounded-2xl p-8 mb-8">
+                <div class="bg-white shadow rounded-2xl p-4 mb-8">
                     <h3 class="text-lg font-semibold mb-4">Recent Orders</h3>
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white border text-sm">

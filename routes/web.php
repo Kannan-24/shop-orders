@@ -10,10 +10,9 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\SocialAuthController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 // Social Authentication Routes
@@ -38,11 +37,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('customers', CustomerController::class);
 
-
-    // Orders
-
-    Route::resource('users', UserController::class);
-    
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
     Route::get('/payments/{payment}', [PaymentController::class, 'show'])->name('payments.show');
     Route::get('/payments/{payment}/add-payment', [PaymentController::class, 'addPaymentForm'])->name('payments.addPayment');

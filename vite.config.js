@@ -8,9 +8,4 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    build: {
-        manifest: true,
-        outDir: 'public/build', // <- this is the correct path Laravel looks for
-        emptyOutDir: true,
-    },
 });

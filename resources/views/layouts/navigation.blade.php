@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="block h-16 w-auto object-contain" />
                     </a>
                 </div>
 
@@ -15,9 +15,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                        {{ __('Users') }}
-                    </x-nav-link>
+                    @php
+                        $isAdmin = Auth::user() && Auth::user()->role === 'admin';
+                    @endphp
+                    @if($isAdmin)
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @endif
                     <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
                         {{ __('Customers') }}
                     </x-nav-link>
