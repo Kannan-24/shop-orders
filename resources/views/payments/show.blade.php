@@ -140,7 +140,7 @@
                             <button
                                 class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition text-center"
                                 onclick="openPaymentAddModal({{ $payment->id }})">
-                                Add PaymentE
+                                Add Payment
                             </button>
                         @endif
                     </div>

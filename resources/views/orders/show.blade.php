@@ -31,30 +31,15 @@
                                 </p>
                             </div>
                             <div class="flex items-center">
-                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Handled By</label>
-                                <p class="text-gray-900 text-sm sm:text-base ml-2">{{ $order->user->name ?? '-' }}</p>
-                            </div>
-                            <div class="flex items-center">
-                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Total</label>
-                                <p class="text-gray-900 text-sm sm:text-base font-semibold ml-2">
-                                    ₹{{ number_format($order->total, 2) }}</p>
-                            </div>
-                            <div class="flex items-center">
-                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Paid
-                                    Amount</label>
-                                <p class="text-gray-900 text-sm sm:text-base font-semibold ml-2">
-                                    ₹{{ number_format($order->payment?->paymentItems->sum('amount') ?? 0, 2) }}
-                                </p>
-                            </div>
-                            <div class="flex items-center">
                                 <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Customer
                                     Phone</label>
                                 <p class="text-gray-900 text-sm sm:text-base ml-2">{{ $order->customer->phone ?? '-' }}
                                 </p>
                             </div>
-                        </div>
-
-                        <div class="space-y-4 md:mt-0">
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Handled By</label>
+                                <p class="text-gray-900 text-sm sm:text-base ml-2">{{ $order->user->name ?? '-' }}</p>
+                            </div>
                             <div class="flex items-center">
                                 <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Order Date</label>
                                 <p class="text-gray-900 text-sm sm:text-base ml-2">
@@ -71,6 +56,28 @@
                                     </span>
                                 </p>
                             </div>
+
+                        </div>
+
+                        <div class="space-y-4 md:mt-0">
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Total</label>
+                                <p class="text-gray-900 text-sm sm:text-base font-semibold ml-2">
+                                    ₹{{ number_format($order->total, 2) }}</p>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Paid
+                                    Amount</label>
+                                <p class="text-gray-900 text-sm sm:text-base font-semibold ml-2">
+                                    ₹{{ number_format($order->payment?->paymentItems->sum('amount') ?? 0, 2) }}
+                                </p>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Remaining
+                                    Amount</label>
+                                <p class="text-gray-900 text-sm sm:text-base ml-2">
+                                    ₹{{ number_format($order->payment->balance ?? 0, 2) }}</p>
+                            </div>
                             <div class="flex items-center">
                                 <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Payment
                                     Status</label>
@@ -84,12 +91,6 @@
                                         <span class="text-gray-400">Not yet Order Completed</span>
                                     @endif
                                 </p>
-                            </div>
-                            <div class="flex items-center">
-                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Remaining
-                                    Amount</label>
-                                <p class="text-gray-900 text-sm sm:text-base ml-2">
-                                    ₹{{ number_format($order->payment->balance ?? 0, 2) }}</p>
                             </div>
                         </div>
                     </div>
