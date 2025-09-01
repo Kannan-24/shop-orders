@@ -10,7 +10,14 @@ class Order extends Model
         'customer_id',
         'user_id',
         'total',
-        'status'
+        'status',
+        'order_date',
+        'tenant_id'
+    ];
+
+    protected $casts = [
+        'order_date' => 'date',
+        'total' => 'decimal:2',
     ];
 
     public function customer()

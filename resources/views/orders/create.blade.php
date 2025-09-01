@@ -56,6 +56,15 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                
+                                <div>
+                                    <label for="order_date" class="block text-sm font-medium text-gray-500 mb-1">
+                                        Order Date <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="date" name="order_date" id="order_date" required
+                                        value="{{ old('order_date', date('Y-m-d')) }}"
+                                        class="w-full px-2 py-2 sm:px-4 sm:py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                                </div>
                             </div>
                         </div>
                     </div>

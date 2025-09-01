@@ -11,12 +11,15 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Order::with('customer',  'user', 'items.product', 'payment.paymentItems');
+        $query = Order::with('customer', 'user', 'items.product', 'payment.paymentItems')
+                      ->orderBy('order_date', 'desc')
+                      ->orderBy('created_at', 'desc');
 
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
@@ -47,6 +50,7 @@ class OrderController extends Controller
     {
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
+            'order_date' => 'required|date',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
@@ -55,8 +59,9 @@ class OrderController extends Controller
         DB::transaction(function () use ($request) {
             $order = Order::create([
                 'customer_id' => $request->customer_id,
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'status' => 'pending',
+                'order_date' => $request->order_date,
                 'total' => 0,
             ]);
             $total = 0;
@@ -100,6 +105,7 @@ class OrderController extends Controller
 
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
+            'order_date' => 'required|date',
             'status' => 'required|in:pending,completed,cancelled',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
@@ -112,6 +118,7 @@ class OrderController extends Controller
         DB::transaction(function () use ($request, $order) {
             $order->update([
                 'customer_id' => $request->customer_id,
+                'order_date' => $request->order_date,
                 'status' => $request->status,
             ]);
 

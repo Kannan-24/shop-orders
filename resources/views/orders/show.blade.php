@@ -41,8 +41,8 @@
 
                         <div class="space-y-3 sm:space-y-4 md:mt-0">
                             <div>
-                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Ordered At</label>
-                                <p class="text-gray-900 text-sm sm:text-base">{{ $order->created_at->format('M d, Y') }}</p>
+                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Order Date</label>
+                                <p class="text-gray-900 text-sm sm:text-base">{{ $order->order_date ? $order->order_date->format('M d, Y') : $order->created_at->format('M d, Y') }}</p>
                             </div>
                             <div>
                                 <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Payment Status</label>

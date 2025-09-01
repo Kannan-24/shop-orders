@@ -38,6 +38,7 @@
                     <thead class="bg-gray-200">
                         <tr>
                             <th class="px-2 sm:px-6 py-3 font-semibold text-gray-700 text-center text-xs sm:text-base">#</th>
+                            <th class="px-2 sm:px-6 py-3 font-semibold text-gray-700 text-center text-xs sm:text-base">Order Date</th>
                             <th class="px-2 sm:px-6 py-3 font-semibold text-gray-700 text-center text-xs sm:text-base">Customer Name</th>
                             <th class="px-2 sm:px-6 py-3 font-semibold text-gray-700 text-center text-xs sm:text-base">Phone No</th>
                             <th class="px-2 sm:px-6 py-3 font-semibold text-gray-700 text-center text-xs sm:text-base">Total</th>
@@ -49,6 +50,7 @@
                         @forelse($orders as $order)
                             <tr class="hover:bg-gray-50 transition-all text-center">
                                 <td class="px-2 sm:px-6 py-4 text-xs sm:text-base">{{ $loop->iteration + ($orders->currentPage() - 1) * $orders->perPage() }}</td>
+                                <td class="px-2 sm:px-6 py-4 text-xs sm:text-base">{{ $order->order_date ? $order->order_date->format('M d, Y') : $order->created_at->format('M d, Y') }}</td>
                                 <td class="px-2 sm:px-6 py-4 font-medium text-gray-900 text-xs sm:text-base">{{ $order->customer?->name }}</td>
                                 <td class="px-2 sm:px-6 py-4 text-xs sm:text-base">{{ $order->customer?->phone }}</td>
                                 <td class="px-2 sm:px-6 py-4 text-xs sm:text-base">{{ number_format($order->total, 2) }}</td>
@@ -86,7 +88,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-2 sm:px-6 py-4 text-center text-gray-500 text-xs sm:text-base">No orders found.</td>
+                                <td colspan="7" class="px-2 sm:px-6 py-4 text-center text-gray-500 text-xs sm:text-base">No orders found.</td>
                             </tr>
                         @endforelse
                     </tbody>
