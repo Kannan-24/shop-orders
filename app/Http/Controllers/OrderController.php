@@ -243,5 +243,29 @@ class OrderController extends Controller
         $filename = 'sales_report_' . $from->format('Ymd') . '_to_' . $to->format('Ymd') . '.pdf';
         return $pdf->download($filename);
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        
+        $request->validate([
+            'status' => 'required|in:pending,completed,cancelled',
+        ]);
+
+        $oldStatus = $order->status;
+        $order->update(['status' => $request->status]);
+        
+        // Create payment record when order is marked as completed
+        if ($request->status === 'completed' && $oldStatus !== 'completed' && !$order->payment) {
+            Payment::create([
+                'order_id'     => $order->id,
+                'total_amount' => $order->total,
+                'balance'      => $order->total,
+                'status'       => 'pending',
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Order status updated successfully!');
+    }
     
 }

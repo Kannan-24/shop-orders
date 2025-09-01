@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/payments/{payment}/items/{item}', [PaymentController::class, 'updatePaymentItem'])->name('payments.paymentItems.update');
     Route::get('/orders/{id}/pdf', [OrderController::class, 'downloadPdf'])->name('orders.pdf');
     Route::get('/orders/export-sales-pdf', [OrderController::class, 'exportSalesPdf'])->name('orders.exportSalesPdf');
+    Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
     Route::get('orders/{order}/bill', [OrderController::class, 'bill'])->name('orders.bill');
     Route::get('orders-report', [OrderController::class, 'report'])->name('orders.report');
     Route::get('/export-sales-excel', [OrderController::class, 'exportSalesExcel'])->name('export.sales.excel');

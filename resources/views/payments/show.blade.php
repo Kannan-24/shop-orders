@@ -15,8 +15,10 @@
                             <span class="text-base sm:text-lg font-medium text-gray-700">#</span>
                         </div>
                         <div class="mt-2 sm:mt-0 sm:ml-4">
-                            <h2 class="text-lg sm:text-xl font-semibold text-gray-900">Order #{{ $payment->order_id }}</h2>
-                            <p class="text-gray-500 text-sm sm:text-base">{{ $payment->order->customer->name ?? 'No Customer' }}</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-gray-900">Order #{{ $payment->order_id }}
+                            </h2>
+                            <p class="text-gray-500 text-sm sm:text-base">
+                                {{ $payment->order->customer->name ?? 'No Customer' }}</p>
                         </div>
                     </div>
                 </div>
@@ -27,10 +29,12 @@
                         <div class="space-y-3 sm:space-y-4">
                             <div>
                                 <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Customer</label>
-                                <p class="text-gray-900 text-sm sm:text-base">{{ $payment->order->customer->name ?? 'Not provided' }}</p>
+                                <p class="text-gray-900 text-sm sm:text-base">
+                                    {{ $payment->order->customer->name ?? 'Not provided' }}</p>
                             </div>
                             <div>
-                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Total Amount</label>
+                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Total
+                                    Amount</label>
                                 <p class="text-gray-900 text-sm sm:text-base font-semibold">
                                     ₹{{ number_format($payment->total_amount, 2) }}</p>
                             </div>
@@ -42,8 +46,10 @@
                         </div>
                         <div class="space-y-3 sm:space-y-4 md:mt-0">
                             <div>
-                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Phone Number</label>
-                                <p class="text-gray-900 text-sm sm:text-base">{{ $payment->order->customer->phone ?? 'Not provided' }}</p>
+                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Phone
+                                    Number</label>
+                                <p class="text-gray-900 text-sm sm:text-base">
+                                    {{ $payment->order->customer->phone ?? 'Not provided' }}</p>
                             </div>
                             <div>
                                 <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Remaining</label>
@@ -74,12 +80,24 @@
                         <table class="min-w-full bg-white border rounded-lg text-xs sm:text-sm">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="px-2 sm:px-4 py-2 sm:py-3 text-left font-medium text-gray-500 uppercase tracking-wider">#</th>
-                                    <th class="px-2 sm:px-4 py-2 sm:py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                                    <th class="px-2 sm:px-4 py-2 sm:py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Method</th>
-                                    <th class="px-2 sm:px-4 py-2 sm:py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Details</th>
-                                    <th class="px-2 sm:px-4 py-2 sm:py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Paid At</th>
-                                    <th class="px-2 sm:px-4 py-2 sm:py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    <th
+                                        class="px-2 sm:px-4 py-2 sm:py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
+                                        #</th>
+                                    <th
+                                        class="px-2 sm:px-4 py-2 sm:py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
+                                        Amount</th>
+                                    <th
+                                        class="px-2 sm:px-4 py-2 sm:py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
+                                        Method</th>
+                                    <th
+                                        class="px-2 sm:px-4 py-2 sm:py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
+                                        Details</th>
+                                    <th
+                                        class="px-2 sm:px-4 py-2 sm:py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
+                                        Paid At</th>
+                                    <th
+                                        class="px-2 sm:px-4 py-2 sm:py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
+                                        Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
@@ -115,12 +133,14 @@
                 </div>
 
                 <!-- Actions -->
-                <div class="px-2 sm:px-4 py-2 sm:py-3 bg-gray-50 border-t flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
+                <div
+                    class="px-2 sm:px-4 py-2 sm:py-3 bg-gray-50 border-t flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
                     <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
-                        @if ($payment->balance > 0 && $payment->paymentItems->count() > 0)
+                        @if ($payment->balance > 0)
                             <button
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition text-center">
-                                Add Payment
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition text-center"
+                                onclick="openPaymentAddModal({{ $payment->id }})">
+                                Add PaymentE
                             </button>
                         @endif
                     </div>
@@ -135,10 +155,29 @@
     <!-- Add Payment Modal -->
     <div id="addPaymentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
         <div class="bg-white rounded-lg shadow-xl p-4 sm:p-8 w-full max-w-lg mx-2 sm:mx-0">
-            <h2 class="text-xl sm:text-2xl font-bold mb-3 text-gray-800">Add Payment for Order #{{ $payment->order_id }}</h2>
+            <h2 class="text-xl sm:text-2xl font-bold mb-3 text-gray-800">Add Payment for Order
+                #{{ $payment->order_id }}</h2>
+
+            @if ($errors->any())
+                <div class="bg-red-50 border border-red-200 rounded-md p-3 mb-4">
+                    <ul class="list-disc list-inside text-sm text-red-600">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if (session('success'))
+                <div class="bg-green-50 border border-green-200 rounded-md p-3 mb-4">
+                    <p class="text-sm text-green-600">{{ session('success') }}</p>
+                </div>
+            @endif
+
             <div class="flex flex-col sm:flex-row sm:items-center gap-1">
                 <span class="text-sm text-gray-600">Order Total:</span>
-                <span class="text-sm font-semibold text-gray-900">₹{{ number_format($payment->total_amount, 2) }}</span>
+                <span
+                    class="text-sm font-semibold text-gray-900">₹{{ number_format($payment->total_amount, 2) }}</span>
             </div>
             <div class="flex flex-col sm:flex-row sm:items-center gap-1 mt-1 mb-3">
                 <span class="text-sm text-gray-600">Remaining Balance:</span>
@@ -149,8 +188,11 @@
                 @csrf
                 <div class="mb-4">
                     <label class="block font-medium text-sm text-gray-700 mb-1">Amount</label>
-                    <input type="number" min="1" step="0.01" name="amount" required
-                        class="w-full px-4 py-2 border rounded" />
+                    <input type="number" min="0.01" step="0.01" name="amount" id="paymentAmount" required
+                        max="{{ $payment->balance }}" class="w-full px-4 py-2 border rounded"
+                        placeholder="Maximum: ₹{{ number_format($payment->balance, 2) }}" />
+                    <small class="text-gray-500">Maximum amount you can add:
+                        ₹{{ number_format($payment->balance, 2) }}</small>
                 </div>
                 <div class="mb-4">
                     <label class="block font-medium text-sm text-gray-700 mb-1">Payment Method</label>
@@ -173,7 +215,8 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-2">
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded w-full sm:w-auto">Add Payment</button>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded w-full sm:w-auto">Add
+                        Payment</button>
                     <button type="button" onclick="closeModal('addPaymentModal')"
                         class="bg-gray-200 text-black px-4 py-2 rounded w-full sm:w-auto">Cancel</button>
                 </div>
@@ -188,7 +231,8 @@
             <h2 class="text-xl sm:text-2xl font-bold mb-3 text-gray-800">Edit Payment Item</h2>
             <div class="flex flex-col sm:flex-row sm:items-center gap-1">
                 <span class="text-sm text-gray-600">Order Total:</span>
-                <span class="text-sm font-semibold text-gray-900">₹{{ number_format($payment->total_amount, 2) }}</span>
+                <span
+                    class="text-sm font-semibold text-gray-900">₹{{ number_format($payment->total_amount, 2) }}</span>
             </div>
             <div class="flex flex-col sm:flex-row sm:items-center gap-1 mt-1 mb-3">
                 <span class="text-sm text-gray-600">Remaining Balance:</span>
@@ -224,7 +268,8 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-2">
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded w-full sm:w-auto">Update Payment Item</button>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded w-full sm:w-auto">Update
+                        Payment Item</button>
                     <button type="button" onclick="closeModal('editPaymentModal')"
                         class="bg-gray-200 text-black px-4 py-2 rounded w-full sm:w-auto">Cancel</button>
                 </div>
@@ -234,12 +279,18 @@
 
     <!-- Simple Modal JS -->
     <script>
+        const remainingBalance = {{ $payment->balance }};
+
         function closeModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');
         }
 
         function openPaymentAddModal(paymentId) {
             document.getElementById('addPaymentModal').classList.remove('hidden');
+            // Reset form
+            document.getElementById('addPaymentForm').reset();
+            // Set default date
+            document.querySelector('input[name="paid_at"]').value = new Date().toISOString().slice(0, 10);
         }
 
         function openPaymentEditModal(paymentId, itemId, itemData) {
@@ -253,6 +304,48 @@
             document.getElementById('editPaidAt').value = dateStr;
             document.getElementById('editPaymentModal').classList.remove('hidden');
         }
+
+        // Add payment form validation
+        document.getElementById('addPaymentForm').addEventListener('submit', function(e) {
+            const amountInput = document.getElementById('paymentAmount');
+            const amount = parseFloat(amountInput.value);
+
+            if (amount > remainingBalance) {
+                e.preventDefault();
+                alert(
+                    `Payment amount (₹${amount.toFixed(2)}) cannot exceed the remaining balance (₹${remainingBalance.toFixed(2)})`);
+                amountInput.focus();
+                return false;
+            }
+
+            if (amount <= 0) {
+                e.preventDefault();
+                alert('Payment amount must be greater than zero');
+                amountInput.focus();
+                return false;
+            }
+        });
+
+        // Real-time validation for amount input
+        document.getElementById('paymentAmount').addEventListener('input', function() {
+            const amount = parseFloat(this.value);
+            const submitButton = document.querySelector('#addPaymentForm button[type="submit"]');
+
+            if (amount > remainingBalance) {
+                this.setCustomValidity(`Amount cannot exceed ₹${remainingBalance.toFixed(2)}`);
+                submitButton.disabled = true;
+                submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+            } else if (amount <= 0) {
+                this.setCustomValidity('Amount must be greater than zero');
+                submitButton.disabled = true;
+                submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                this.setCustomValidity('');
+                submitButton.disabled = false;
+                submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        });
+
         document.getElementById('addPaymentModal').addEventListener('click', function(e) {
             if (e.target === this) closeModal('addPaymentModal');
         });

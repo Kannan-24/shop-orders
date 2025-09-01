@@ -194,6 +194,106 @@
         </div>
     </div>
     <script>
-        // ... (keep your JS as is)
+        const products = @json($products);
+
+        function updateSubtotal(tr) {
+            const price = parseFloat(tr.querySelector('.item-price').value) || 0;
+            const qty = parseFloat(tr.querySelector('.item-qty').value) || 0;
+            const subtotal = price * qty;
+            tr.querySelector('.item-subtotal').innerText = subtotal.toFixed(2);
+        }
+
+        function updateAllTotals() {
+            let total = 0;
+            document.querySelectorAll('#order-items-table tbody tr').forEach(tr => {
+                updateSubtotal(tr);
+                total += parseFloat(tr.querySelector('.item-subtotal').innerText) || 0;
+            });
+            document.getElementById('order-total').innerText = total.toFixed(2);
+        }
+
+        document.getElementById('add-item-btn').addEventListener('click', function() {
+            const tbody = document.querySelector('#order-items-table tbody');
+            const rowCount = tbody.children.length;
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-gray-50 transition';
+            tr.innerHTML = `
+                <td class="px-4 py-2 border-b align-middle">
+                    <select name="items[${rowCount}][product_id]" required class="product-select border border-gray-300 rounded px-2 py-1 w-full focus:ring-2 focus:ring-blue-500">
+                        <option value="">Select product</option>
+                        ${products.map(p => `<option value="${p.id}" data-base-price="${p.base_price}" data-default-quantity="${p.default_quantity ?? 1}" data-unit-type="${p.unit_type}" data-unit-value="${p.unit_value}">${p.name}</option>`).join('')}
+                    </select>
+                </td>
+                <td class="px-4 py-2 border-b text-right align-middle">
+                    <input type="number" step="0.01" min="0" name="items[${rowCount}][unit_price]" value="0" required class="w-20 px-2 py-1 border border-gray-300 rounded text-right item-price focus:ring-2 focus:ring-blue-500">
+                </td>
+                <td class="px-4 py-2 border-b text-center align-middle">
+                    <input type="number" step="0.01" min="0.01" name="items[${rowCount}][quantity]" value="1" required class="w-20 px-2 py-1 border border-gray-300 rounded text-right item-qty focus:ring-2 focus:ring-blue-500">
+                </td>
+                <td class="px-4 py-2 border-b text-center align-middle">
+                    <input type="number" step="0.01" min="0" name="items[${rowCount}][unit_value]" value="" required class="w-16 px-2 py-1 border border-gray-100 rounded text-center item-unit-value bg-gray-100" readonly>
+                </td>
+                <td class="px-4 py-2 border-b text-center align-middle">
+                    <input type="text" name="items[${rowCount}][unit_type]" value="" required class="w-20 px-2 py-1 border border-gray-100 rounded text-center item-unit-type bg-gray-100" readonly>
+                </td>
+                <td class="px-4 py-2 border-b text-right align-middle">
+                    ₹<span class="item-subtotal font-semibold text-gray-800">0.00</span>
+                </td>
+                <td class="px-4 py-2 border-b text-center align-middle">
+                    <button type="button" class="delete-row-btn text-red-600 hover:text-red-800 font-bold px-3 py-1 rounded transition" onclick="removeRow(this)">Delete</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+            attachRowListeners(tr);
+            updateAllTotals();
+        });
+
+        window.removeRow = function(btn) {
+            btn.closest('tr').remove();
+            updateAllTotals();
+        };
+
+        function attachRowListeners(tr) {
+            tr.querySelector('.product-select').addEventListener('change', function(e) {
+                const selected = e.target.selectedOptions[0];
+                const basePrice = selected.getAttribute('data-base-price');
+                const defaultQty = selected.getAttribute('data-default-quantity');
+                const unitType = selected.getAttribute('data-unit-type');
+                const unitValue = selected.getAttribute('data-unit-value');
+                if (basePrice !== null && basePrice !== "") {
+                    tr.querySelector('.item-price').value = parseFloat(basePrice).toFixed(2);
+                }
+                if (defaultQty !== null && defaultQty !== "") {
+                    tr.querySelector('.item-qty').value = parseFloat(defaultQty);
+                }
+                // Auto-fill and lock unit_value/unit_type
+                if (unitType !== null) {
+                    tr.querySelector('.item-unit-type').value = unitType;
+                }
+                if (unitValue !== null && unitValue !== "" && unitValue !== "null") {
+                    tr.querySelector('.item-unit-value').value = unitValue;
+                } else {
+                    tr.querySelector('.item-unit-value').value = "";
+                }
+                updateSubtotal(tr);
+                updateAllTotals();
+            });
+            tr.querySelector('.item-price').addEventListener('input', () => {
+                updateSubtotal(tr);
+                updateAllTotals();
+            });
+            tr.querySelector('.item-qty').addEventListener('input', () => {
+                updateSubtotal(tr);
+                updateAllTotals();
+            });
+        }
+
+        // Initialize existing rows with listeners and calculate totals
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('#order-items-table tbody tr').forEach(tr => {
+                attachRowListeners(tr);
+            });
+            updateAllTotals();
+        });
     </script>
 </x-app-layout>

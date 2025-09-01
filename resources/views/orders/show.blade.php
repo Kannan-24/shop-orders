@@ -10,11 +10,11 @@
             <div class="bg-white shadow-sm rounded-lg border">
                 <!-- Order Header -->
                 <div class="px-2 sm:px-4 py-2 sm:py-4 border-b">
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                         <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-full flex items-center justify-center">
                             <span class="text-base sm:text-lg font-medium text-gray-700">#{{ $order->id }}</span>
                         </div>
-                        <div class="mt-2 sm:mt-0 sm:ml-4">
+                        <div>
                             <h2 class="text-lg sm:text-xl font-semibold text-gray-900">Order #{{ $order->id }}</h2>
                             <p class="text-gray-500 text-sm sm:text-base">Status: {{ ucfirst($order->status) }}</p>
                         </div>
@@ -23,42 +23,73 @@
 
                 <!-- Order Information -->
                 <div class="px-2 sm:px-4 py-2 sm:py-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                        <div class="space-y-3 sm:space-y-4">
-                            <div>
-                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Customer</label>
-                                <p class="text-gray-900 text-sm sm:text-base">{{ $order->customer->name ?? '-' }}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Customer</label>
+                                <p class="text-gray-900 text-sm sm:text-base ml-2">{{ $order->customer->name ?? '-' }}
+                                </p>
                             </div>
-                            <div>
-                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Handled By</label>
-                                <p class="text-gray-900 text-sm sm:text-base">{{ $order->user->name ?? '-' }}</p>
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Handled By</label>
+                                <p class="text-gray-900 text-sm sm:text-base ml-2">{{ $order->user->name ?? '-' }}</p>
                             </div>
-                            <div>
-                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Total</label>
-                                <p class="text-gray-900 text-sm sm:text-base font-semibold">₹{{ number_format($order->total, 2) }}</p>
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Total</label>
+                                <p class="text-gray-900 text-sm sm:text-base font-semibold ml-2">
+                                    ₹{{ number_format($order->total, 2) }}</p>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Paid
+                                    Amount</label>
+                                <p class="text-gray-900 text-sm sm:text-base font-semibold ml-2">
+                                    ₹{{ number_format($order->payment?->paymentItems->sum('amount') ?? 0, 2) }}
+                                </p>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Customer
+                                    Phone</label>
+                                <p class="text-gray-900 text-sm sm:text-base ml-2">{{ $order->customer->phone ?? '-' }}
+                                </p>
                             </div>
                         </div>
 
-                        <div class="space-y-3 sm:space-y-4 md:mt-0">
-                            <div>
-                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Order Date</label>
-                                <p class="text-gray-900 text-sm sm:text-base">{{ $order->order_date ? $order->order_date->format('M d, Y') : $order->created_at->format('M d, Y') }}</p>
+                        <div class="space-y-4 md:mt-0">
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Order Date</label>
+                                <p class="text-gray-900 text-sm sm:text-base ml-2">
+                                    {{ $order->order_date ? $order->order_date->format('M d, Y') : $order->created_at->format('M d, Y') }}
+                                </p>
                             </div>
-                            <div>
-                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Payment Status</label>
-                                <p class="text-gray-900 text-sm sm:text-base">
-                                    @if($order->payment)
-                                        <span class="@if($order->payment->status === 'completed') text-green-600 @elseif($order->payment->status === 'pending') text-yellow-600 @else text-red-600 @endif">
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Order
+                                    Status</label>
+                                <p class="text-gray-900 text-sm sm:text-base ml-2">
+                                    <span
+                                        class="@if ($order->status === 'completed') text-green-600 @elseif($order->status === 'pending') text-yellow-600 @else text-red-600 @endif">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Payment
+                                    Status</label>
+                                <p class="text-gray-900 text-sm sm:text-base ml-2">
+                                    @if ($order->payment)
+                                        <a href="{{ route('payments.show', $order->payment) }}"
+                                            class="@if ($order->payment->status === 'completed') text-green-600 @elseif($order->payment->status === 'pending') text-yellow-600 @else text-red-600 @endif hover:text-blue-600">
                                             {{ ucfirst($order->payment->status ?? '-') }}
-                                        </span>
+                                        </a>
                                     @else
                                         <span class="text-gray-400">Not yet Order Completed</span>
                                     @endif
                                 </p>
                             </div>
-                            <div>
-                                <label class="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Remaining Amount</label>
-                                <p class="text-gray-900 text-sm sm:text-base">₹{{ number_format($order->payment->balance ?? 0, 2) }}</p>
+                            <div class="flex items-center">
+                                <label class="w-32 text-xs sm:text-sm font-medium text-gray-500 mb-1">Remaining
+                                    Amount</label>
+                                <p class="text-gray-900 text-sm sm:text-base ml-2">
+                                    ₹{{ number_format($order->payment->balance ?? 0, 2) }}</p>
                             </div>
                         </div>
                     </div>
@@ -71,11 +102,16 @@
                         <table class="min-w-full divide-y divide-gray-200 border text-xs sm:text-sm">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="px-2 sm:px-4 py-2 text-left font-medium text-gray-500 uppercase">S.No</th>
-                                    <th class="px-2 sm:px-4 py-2 text-left font-medium text-gray-500 uppercase">Product</th>
-                                    <th class="px-2 sm:px-4 py-2 text-left font-medium text-gray-500 uppercase">Quantity/Weight</th>
-                                    <th class="px-2 sm:px-4 py-2 text-left font-medium text-gray-500 uppercase">Unit Price</th>
-                                    <th class="px-2 sm:px-4 py-2 text-left font-medium text-gray-500 uppercase">Subtotal</th>
+                                    <th class="px-2 sm:px-4 py-2 text-left font-medium text-gray-500 uppercase">S.No
+                                    </th>
+                                    <th class="px-2 sm:px-4 py-2 text-left font-medium text-gray-500 uppercase">Product
+                                    </th>
+                                    <th class="px-2 sm:px-4 py-2 text-left font-medium text-gray-500 uppercase">
+                                        Quantity/Weight</th>
+                                    <th class="px-2 sm:px-4 py-2 text-left font-medium text-gray-500 uppercase">Unit
+                                        Price</th>
+                                    <th class="px-2 sm:px-4 py-2 text-left font-medium text-gray-500 uppercase">Subtotal
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -106,7 +142,8 @@
                 </div>
 
                 <!-- Actions -->
-                <div class="px-2 sm:px-4 py-2 sm:py-3 bg-gray-50 border-t flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
+                <div
+                    class="px-2 sm:px-4 py-2 sm:py-3 bg-gray-50 border-t flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
                     <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
                         <a href="{{ route('orders.edit', $order) }}"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition text-center">

@@ -35,22 +35,34 @@ class PaymentController extends Controller
         $payment = Payment::with('order')->findOrFail($id);
 
         $request->validate([
-            'amount' => 'required|numeric|min:1',
+            'amount' => 'required|numeric|min:0.01',
             'method' => 'required|string',
             'details' => 'nullable|string',
+            'paid_at' => 'nullable|date',
         ]);
+
+        // Additional validation to prevent overpayment
+        $requestedAmount = $request->amount;
+        $remainingBalance = $payment->balance;
+
+        if ($requestedAmount > $remainingBalance) {
+            return redirect()->back()
+                ->withErrors(['amount' => "Payment amount (₹{$requestedAmount}) cannot exceed the remaining balance (₹{$remainingBalance})"])
+                ->withInput();
+        }
 
         DB::transaction(function () use ($request, $payment) {
             $paidAmount = $request->amount;
             $previousPaid = $payment->paymentItems()->sum('amount');
             $totalPaid = $previousPaid + $paidAmount;
             $orderTotal = $payment->total_amount;
-            $remaining = $orderTotal - $totalPaid;
+            $remaining = max(0, $orderTotal - $totalPaid); // Ensure no negative balance
 
             // Set payment status
             $status = 'pending';
             if ($totalPaid >= $orderTotal) {
                 $status = 'completed';
+                $remaining = 0; // Ensure balance is exactly 0 when completed
             } elseif ($totalPaid > 0) {
                 $status = 'partial';
             }
@@ -62,7 +74,7 @@ class PaymentController extends Controller
                 'amount' => $paidAmount,
                 'method' => $request->method,
                 'details' => $request->details,
-                'paid_at' => now(),
+                'paid_at' => $request->paid_at ? $request->paid_at : now(),
             ]);
 
             // Update payment summary
@@ -73,7 +85,7 @@ class PaymentController extends Controller
         });
 
         return redirect()->route('payments.show', $payment->id)
-            ->with('success', 'Payment recorded!');
+            ->with('success', 'Payment recorded successfully!');
     }
 
     public function editPaymentItem($paymentId, $itemId)
@@ -89,25 +101,43 @@ class PaymentController extends Controller
         $item = $payment->paymentItems()->findOrFail($itemId);
 
         $request->validate([
-            'amount' => 'required|numeric|min:1',
+            'amount' => 'required|numeric|min:0.01',
             'method' => 'required|string',
             'details' => 'nullable|string',
             'paid_at' => 'required|date',
         ]);
 
-        $item->update([
-            'amount' => $request->amount,
-            'method' => $request->method,
-            'details' => $request->details,
-            'paid_at' => $request->paid_at,
-        ]);
+        // Additional validation to prevent overpayment
+        $requestedAmount = $request->amount;
+        $otherPaymentsTotal = $payment->paymentItems()->where('id', '!=', $itemId)->sum('amount');
+        $maxAllowedAmount = $payment->total_amount - $otherPaymentsTotal;
 
-        // Recalculate payment status and balance
-        $totalPaid = $payment->paymentItems()->sum('amount');
-        $balance = $payment->total_amount - $totalPaid;
-        $status = $totalPaid >= $payment->total_amount ? 'completed' : ($totalPaid > 0 ? 'partial' : 'pending');
-        $payment->update(['balance' => $balance, 'status' => $status]);
+        if ($requestedAmount > $maxAllowedAmount) {
+            return redirect()->back()
+                ->withErrors(['amount' => "Payment amount (₹{$requestedAmount}) would exceed the order total. Maximum allowed: ₹{$maxAllowedAmount}"])
+                ->withInput();
+        }
 
-        return redirect()->route('payments.show', $payment->id)->with('success', 'Payment item updated!');
+        DB::transaction(function () use ($request, $payment, $item) {
+            $item->update([
+                'amount' => $request->amount,
+                'method' => $request->method,
+                'details' => $request->details,
+                'paid_at' => $request->paid_at,
+            ]);
+
+            // Recalculate payment status and balance
+            $totalPaid = $payment->paymentItems()->sum('amount');
+            $balance = max(0, $payment->total_amount - $totalPaid);
+            $status = $totalPaid >= $payment->total_amount ? 'completed' : ($totalPaid > 0 ? 'partial' : 'pending');
+
+            $payment->update([
+                'balance' => $balance,
+                'status' => $status
+            ]);
+        });
+
+        return redirect()->route('payments.show', $payment->id)
+            ->with('success', 'Payment item updated successfully!');
     }
 }
