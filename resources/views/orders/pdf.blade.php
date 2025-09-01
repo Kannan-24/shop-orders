@@ -96,7 +96,7 @@
         }
 
         .items-table th {
-            text-align: left;
+            text-align: center;
             background: #f8f8f8;
         }
 
@@ -176,7 +176,6 @@
                 <tr>
                     <th>#</th>
                     <th>Product</th>
-                    <th>Description</th>
                     <th>Qty</th>
                     <th>Unit Price</th>
                     <th>Subtotal</th>
@@ -187,8 +186,7 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $item->product->name }}</td>
-                        <td>{{ $item->product->description ?? '-' }}</td>
-                        <td>{{ $item->quantity }}</td>
+                        <td style="text-align: center">{{ $item->quantity }}</td>
                         <td class="text-right">{{ number_format($item->unit_price, 2) }}</td>
                         <td class="text-right">{{ number_format($item->subtotal, 2) }}</td>
                     </tr>
