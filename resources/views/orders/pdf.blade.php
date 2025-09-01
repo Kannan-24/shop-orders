@@ -162,7 +162,7 @@
                 <td class="invoice-details" style="width: 30%;">
                     <strong>Invoice Details</strong><br>
                     <strong>Invoice #:</strong> {{ $order->id }}<br>
-                    <strong>Date:</strong> {{ $order->updated_at->format('d-m-Y') }}
+                    <strong>Date:</strong> {{ $order->order_date->format('d-m-Y') }}<br>
                 </td>
             </tr>
         </table>
