@@ -34,7 +34,7 @@ class CustomerController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'nullable|email',
-            'phone' => 'nullable|string',
+            'phone' => 'required|string|min:10',
             'address' => 'nullable|string',
         ]);
         Customer::create($request->all());
@@ -51,7 +51,7 @@ class CustomerController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'nullable|email',
-            'phone' => 'nullable|string',
+            'phone' => 'required|string|min:10',
             'address' => 'nullable|string',
         ]);
         $customer->update($request->all());

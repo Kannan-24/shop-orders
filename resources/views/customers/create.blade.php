@@ -56,8 +56,9 @@
 
                                 <div>
                                     <label for="phone"
-                                        class="block text-sm font-medium text-gray-500 mb-1">Phone</label>
+                                        class="block text-sm font-medium text-gray-500 mb-1">Phone <span class="text-red-500">*</span></label>
                                     <input type="text" name="phone" id="phone" value="{{ old('phone') }}"
+                                        required
                                         class="w-full px-2 py-2 sm:px-4 sm:py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                                 </div>
 

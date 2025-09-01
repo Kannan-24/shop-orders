@@ -53,8 +53,8 @@
                                 </td>
                                 <td class="px-2 sm:px-6 py-4 font-medium text-gray-900 text-xs sm:text-base">
                                     {{ $customer->name }}</td>
-                                <td class="px-2 sm:px-6 py-4 text-xs sm:text-base">{{ $customer->email }}</td>
-                                <td class="px-2 sm:px-6 py-4 text-xs sm:text-base">{{ $customer->phone }}</td>
+                                <td class="px-2 sm:px-6 py-4 text-xs sm:text-base">{{ $customer->email ?? '-' }}</td>
+                                <td class="px-2 sm:px-6 py-4 text-xs sm:text-base">{{ $customer->phone ?? '-' }}</td>
                                 <td class="px-2 sm:px-6 py-4">
                                     <div class="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2">
                                         <!-- View -->
