@@ -53,7 +53,8 @@ class OrderController extends Controller
             'order_date' => 'required|date',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
-            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.quantity' => 'required|numeric|min:0.01',
+            'items.*.unit_price' => 'required|numeric|min:0',
         ]);
 
         DB::transaction(function () use ($request) {
@@ -68,13 +69,14 @@ class OrderController extends Controller
             foreach ($request->items as $item) {
                 $product = Product::findOrFail($item['product_id']);
                 $quantity = $item['quantity'];
-                $unit_price = $product->base_price;
+                // Use the user's entered price instead of always using product base_price
+                $unit_price = $item['unit_price']; 
                 $subtotal = $unit_price * $quantity;
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $product->id,
                     'quantity' => $quantity,
-                    'unit_price' => $unit_price,
+                    'unit_price' => $unit_price, // This will now store the user's entered price
                     'subtotal' => $subtotal,
                 ]);
                 $total += $subtotal;

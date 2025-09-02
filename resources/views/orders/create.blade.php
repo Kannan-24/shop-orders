@@ -75,10 +75,12 @@
                         <div class="overflow-x-auto mb-4 sm:mb-6">
                             <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm text-xs sm:text-sm"
                                 id="order-items-table">
-                                <thead class="bg-gray-100">
+                                <thead class="bg-gray-100 ">
                                     <tr>
-                                        <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-left">Product</th>
-                                        <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-right">Price</th>
+                                        <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-center">Product</th>
+                                        <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-center">
+                                            Unit Price 
+                                        </th>
                                         <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-center">Qty</th>
                                         <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-center">Unit Value</th>
                                         <th class="px-2 py-2 sm:px-6 sm:py-3 border-b font-semibold text-gray-700 text-center">Unit Type</th>
@@ -152,7 +154,9 @@
                     </select>
                 </td>
                 <td class="px-2 py-2 sm:px-6 sm:py-4 border-b text-right align-middle">
-                    <input type="number" step="0.01" min="0" name="items[${rowCount}][unit_price]" value="0" required class="w-16 sm:w-24 px-2 py-1 border border-gray-300 rounded text-right item-price focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm">
+                    <input type="number" step="0.01" min="0" name="items[${rowCount}][unit_price]" value="0" required 
+                           class="w-16 sm:w-24 px-2 py-1 border border-gray-300 rounded text-right item-price focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm bg-yellow-50" 
+                           placeholder="0.00" title="Price will auto-fill from product, but you can modify it">
                 </td>
                 <td class="px-2 py-2 sm:px-6 sm:py-4 border-b text-center align-middle">
                     <input type="number" step="0.01" min="0.01" name="items[${rowCount}][quantity]" value="1" required class="w-16 sm:w-24 px-2 py-1 border border-gray-300 rounded text-right item-qty focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm">
